@@ -1,0 +1,52 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@ajulka9 
+2,794
+84,818 41,537 github/gitignore
+ Code  Pull requests 86  Projects 0  Security  Insights
+gitignore/Node.gitignore
+@byeonggukgong byeonggukgong Update Node.gitignore (#2934)
+e58b3e0 26 days ago
+@stuartpb @shiftkey @TennyZhuang @venatoria @ro31337 @melonmanchan @gouthamve @jucrouzet @cheddar @arcresu @kesoji @tejashah88 @sroberts @SimonSiefke @segayuu @Richienb @rgbkrk @rsolomo @peat @noinkling @ndelvalle @MikeRalphson @lmedson @shtr0m @kerimdzhanov @joreyaesh
+89 lines (63 sloc)  1.28 KB
+    
+# Logs
+logs
+*.log
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+
+#node modules
+node_modules
+bower_components
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+
+# TypeScript v1 declaration files
+typings/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
