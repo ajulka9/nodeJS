@@ -5,20 +5,21 @@ const mapURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
 const mapAT = 'pk.eyJ1IjoiYWp1bGthOSIsImEiOiJjandsZ24ydnkwd3pvNGNwY3I3bnFxeTdrIn0.cCEStTlpgJEczXQ0-zxeFQ';
 
 var getWeatherData = (placeData)=> {
+    console.log('getWeatherData for : '+ JSON.stringify(placeData));
     var weatherUrl = weatherURL + placeData.cordinates.join(',');
+    console.log('weatherUrl : '+ weatherUrl);
     const options = {url: weatherUrl,json: true};
     request(options, function(error, response){
+        console.log('Callback for getting weather data called!!');
         if(error){
             console.log('Error : '+ error);
         }else{
-            debugger
             if(response.statusCode /100 != 2){
                 console.log('Status Code: '+ response.statusCode + ' error : '+ JSON.stringify(response.body));
             } else{
                 console.log('Weather response : '+ response.body.currently);
                 printData(placeData,response.body.currently)
             }
-           
         }
     });
 }
@@ -45,27 +46,29 @@ var getCordiantesCallback = (error, response)=>{
         parseCordinates(data);
     }
 }
+
 var parseCordinates = (data)=>{
+    console.log('parseCordinates');
     var feature = data.features[0];
     var placeData = {
-       cordinates: feature.center,
+       cordinates: feature.center.reverse(),
        place_name: feature.place_name
     }
     if(placeData){
-        console.log('Parced place Data: '+ placeData.cordinates + ' - '+ placeData.place_name);
+        console.log('Parsed place Data: '+ placeData.cordinates + ' - '+ placeData.place_name);
+        console.log('Calling getWeatherdata');
         getWeatherData(placeData);
     }
 }
-
-getCordinates('Sunnyvale', mapAT);
-
-
 
 var printData = (placeData, weatherData)=>{
     console.log('Currently in '+ placeData.place_name +
      ' it is '+ weatherData.apparentTemperature +
      ' temprature with overal '+ weatherData.summary +
-     ' conditons, and '+ weatherData.humidity +'humidity!!');
+     ' conditons, and '+ weatherData.humidity +' humidity!!');
     // console.log("Overal : "+ data.summary);
     // console.log("humidity : "+ data.humidity);
 }
+
+// Exectute.
+getCordinates('Sunnyvale', mapAT);

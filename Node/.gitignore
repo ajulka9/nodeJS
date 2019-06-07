@@ -1,27 +1,8 @@
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@ajulka9 
-2,794
-84,818 41,537 github/gitignore
- Code  Pull requests 86  Projects 0  Security  Insights
-gitignore/Node.gitignore
-@byeonggukgong byeonggukgong Update Node.gitignore (#2934)
-e58b3e0 26 days ago
-@stuartpb @shiftkey @TennyZhuang @venatoria @ro31337 @melonmanchan @gouthamve @jucrouzet @cheddar @arcresu @kesoji @tejashah88 @sroberts @SimonSiefke @segayuu @Richienb @rgbkrk @rsolomo @peat @noinkling @ndelvalle @MikeRalphson @lmedson @shtr0m @kerimdzhanov @joreyaesh
-89 lines (63 sloc)  1.28 KB
     
 # Logs
 logs
 *.log
-
-# Diagnostic reports (https://nodejs.org/api/report.html)
+.DS_Store
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 
