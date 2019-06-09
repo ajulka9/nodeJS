@@ -1,15 +1,30 @@
-const request = require('request');
+const yargs = require('yargs');
+const getGeoLocation = require('./geoLocation');
+const getWeather = require('./getWeather');
 
-const weatherURL = 'https://api.darksky.net/forecast/707d5cefb4e7d5646fe6cd4b4cf73158/';
-const mapURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
-const mapAT = 'pk.eyJ1IjoiYWp1bGthOSIsImEiOiJjandsZ24ydnkwd3pvNGNwY3I3bnFxeTdrIn0.cCEStTlpgJEczXQ0-zxeFQ';
 
 var getWeatherData = (placeData)=> {
-    console.log('getWeatherData for : '+ JSON.stringify(placeData));
-    var weatherUrl = weatherURL + placeData.cordinates.join(',');
-    console.log('weatherUrl : '+ weatherUrl);
-    const options = {url: weatherUrl,json: true};
-    request(options, function(error, response){
+    getWeather(placeData, getWeatherCallback)
+}
+
+
+var getCordinates = (place)=>{
+    getGeoLocation(place, getCordiantesCallback);
+};
+
+var getCordiantesCallback = (error, response)=>{
+    console.log('getCordiantesCallback!');
+    if(error){
+        console.log('Error : '+ error);
+        return null;
+    } else{
+        var data = response.body;
+        var placeData = parseCordinates(data);
+        getWeatherData(placeData);
+    }
+}
+
+var getWeatherCallback = (error, placeData, response)=>{
         console.log('Callback for getting weather data called!!');
         if(error){
             console.log('Error : '+ error);
@@ -21,30 +36,6 @@ var getWeatherData = (placeData)=> {
                 printData(placeData,response.body.currently)
             }
         }
-    });
-}
-
-
-var getCordinates = (place, at)=>{
-    console.log('Getting coordiantes for : '+ place);
-    mapUrl = mapURL+place+'.json'+'?access_token='+at;
-    console.log('Map URL : '+ mapUrl);
-    request({
-        url: mapUrl,
-        json:true
-    }, getCordiantesCallback);
-};
-
-var getCordiantesCallback = (error, response)=>{
-    console.log('getCordiantesCallback!');
-    if(error){
-        console.log('Error : '+ error);
-        return null;
-    } else{
-        var response = response;
-        var data = response.body;
-        parseCordinates(data);
-    }
 }
 
 var parseCordinates = (data)=>{
@@ -54,11 +45,7 @@ var parseCordinates = (data)=>{
        cordinates: feature.center.reverse(),
        place_name: feature.place_name
     }
-    if(placeData){
-        console.log('Parsed place Data: '+ placeData.cordinates + ' - '+ placeData.place_name);
-        console.log('Calling getWeatherdata');
-        getWeatherData(placeData);
-    }
+    return placeData;
 }
 
 var printData = (placeData, weatherData)=>{
@@ -71,4 +58,23 @@ var printData = (placeData, weatherData)=>{
 }
 
 // Exectute.
-getCordinates('Sunnyvale', mapAT);
+// interactive mode
+yargs.command({
+    command:'getCurrent',
+    describe:'get current weather of the given city.',
+    builder: {
+        city:{
+            describe: 'city name for which current weather is needed.',
+            demandOption: true,
+            type:'string'
+        }
+    },
+    handler: function(argv){
+       initGetCurrent(argv.city);
+    }
+});
+
+var initGetCurrent = (city)=>{
+    getCordinates(city);
+};
+yargs.parse(); 
