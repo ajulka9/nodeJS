@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/styles.css">
+        
+        <title>
+            {{title}}
+        </title>
+    </head>
+    <body>
+        <div class="main-body">
+             {{>header}}
+        <h4 class="element-padding">Check Weather</h4>
+        </div>
+        <div class="element-padding" id="weather-form">
+            <form>
+                <input placeholder="enter city">
+                <button onclick="onWeather">Submit</button>
+            </form>
+        </div>
+        <div id="weather-result"></div>
+      
+         {{>footer}}
+    </body>
+    <script src="/js/client.js"></script>
+</html>
